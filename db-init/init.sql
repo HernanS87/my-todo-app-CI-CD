@@ -9,3 +9,8 @@ CREATE TABLE IF NOT EXISTS tasks (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+INSERT INTO tasks (title, completed) VALUES
+('Tarea 1', false),
+('Tarea 2', true),
+('Tarea 3', false);
