@@ -64,13 +64,9 @@ jobs:
     needs: test  # Este job solo se ejecuta si el job de tests pasó correctamente
 
     # Condición: ejecutarse solo si hubo cambios en la carpeta 'backend' (modificados, agregados o eliminados)
-    if: >
-      github.event_name == 'push' &&
-      (
-        contains(join(github.event.commits.*.modified), 'backend/') ||
-        contains(join(github.event.commits.*.added), 'backend/') ||
-        contains(join(github.event.commits.*.removed), 'backend/')
-      )
+    if: github.event_name == 'push'
+    paths:
+      - 'backend/**'
 
     steps:
       - name: Checkout code
@@ -93,13 +89,9 @@ jobs:
     needs: test  # También depende del job de tests
 
     # Condición: ejecutarse solo si hubo cambios en la carpeta 'todo-app' (modificados, agregados o eliminados)
-    if: >
-      github.event_name == 'push' &&
-      (
-        contains(join(github.event.commits.*.modified), 'todo-app/') ||
-        contains(join(github.event.commits.*.added), 'todo-app/') ||
-        contains(join(github.event.commits.*.removed), 'todo-app/')
-      )
+    if: github.event_name == 'push'
+    paths:
+      - 'todo-app/**'
 
     steps:
       - name: Checkout code
