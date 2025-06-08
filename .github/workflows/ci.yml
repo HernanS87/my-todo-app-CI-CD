@@ -56,3 +56,22 @@ jobs:
       - name: Ejecutar tests con Jest
         working-directory: backend
         run: npm test  # Lanza los tests de integración que usan Supertest
+  
+  
+  build:                      # Nombre del segundo job, que construye las imágenes Docker
+    runs-on: ubuntu-latest
+    needs: test  # Este job solo se ejecuta si 'test' terminó exitosamente
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Construir imagen del backend
+        working-directory: backend
+        run: |
+          docker build -t hernans87/todo-backend:latest .
+
+      - name: Construir imagen del frontend
+        working-directory: todo-app
+        run: |
+          docker build -t hernans87/todo-frontend:latest .
