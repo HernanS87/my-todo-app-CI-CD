@@ -5,7 +5,7 @@ import { Task } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  private api = 'http://localhost:3000/tasks';
+  private api = 'http://18.223.205.8:3000/tasks';
   constructor(private http: HttpClient) {}
   getTasks(): Observable<Task[]>         { return this.http.get<Task[]>(this.api); }
   addTask(t: Partial<Task>): Observable<Task>    { return this.http.post<Task>(this.api, t); }
