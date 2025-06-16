@@ -4,7 +4,7 @@ name: CI - Backend Test
 # Cuándo debe ejecutarse este workflow
 on:
   push:
-    branches: [feature/integration-tests]  # Solo se ejecuta si hacés push a esta rama
+    branches: [main]  # Solo se ejecuta si hacés push a esta rama
   pull_request:                             # También se ejecuta si creás un PR (por defecto desde cualquier rama)
 
 # Definimos los "jobs", o sea, las tareas independientes que se pueden correr
