@@ -1,0 +1,31 @@
+# Nombre del pipeline de CD (Continuous Deployment)
+name: CD - Deploy en EC2
+
+# Este workflow se ejecuta automáticamente cuando hay un push a la rama main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Desplegar en EC2
+    runs-on: ubuntu-latest  # GitHub ejecuta este job en una máquina Ubuntu virtual
+    needs: build            # Solo se ejecuta si el job "build" del CI fue exitoso
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+        # Aunque no usamos el código aquí, GitHub Actions requiere hacer checkout en cada job
+
+      - name: Desplegar en EC2 vía SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}         # IP pública de tu instancia EC2
+          username: ${{ secrets.EC2_USER }}     # Usuario del servidor (en tu caso "ubuntu")
+          key: ${{ secrets.EC2_SSH_KEY }}       # Clave SSH privada almacenada en la key.pem
+          script: |
+            cd ~/my-todo-app-CI-CD              # Entramos al repo ya clonado en el servidor
+            git pull origin main                # Actualizamos el código
+            docker-compose pull                 # Bajamos las nuevas imágenes desde Docker Hub
+            docker-compose up -d                # Levantamos la app en modo demonio (segundo plano)
